@@ -1,0 +1,71 @@
+databaseChangeLog:
+  - preConditions:
+      onFail: HALT
+      not:
+        tableExists:
+          tableName: tickets
+
+  - changeSet:
+      id: create-tickets-table
+      author: a.varvashevich
+      changes:
+        - createTable:
+            tableName: tickets
+            remarks: Tickets storage
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_tickets
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR(1000)
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: ticket_type
+                  type: VARCHAR(50)
+
+        - addAutoIncrement:
+            tableName: tickets
+            columnName: id
+            columnDataType: BIGINT
+
+        - createIndex:
+            tableName: tickets
+            indexName: ix_tickets_type_created_at
+            columns:
+              - column:
+                  name: ticket_type
+              - column:
+                  name: created_at
+
+  - changeSet:
+      id: ck-tickets-ticket-type-h2
+      author: a.varvashevich
+      preConditions:
+        onFail: MARK_RAN
+        dbms:
+          type: h2
+      changes:
+        - sql: >
+            ALTER TABLE tickets
+            ADD CONSTRAINT ck_tickets_ticket_type
+            CHECK (ticket_type IS NULL OR ticket_type IN ('SIMPLE','DEADLINE','REGULAR'))
+
+  - changeSet:
+      id: rollback-tickets-table
+      author: a.varvashevich
+      context: rollback
+      rollback:
+        - dropTable:
+            tableName: tickets
+            cascadeConstraints: true
