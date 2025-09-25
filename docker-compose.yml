@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   db:
     image: postgres:16
@@ -27,28 +25,12 @@ services:
       db:
         condition: service_healthy
     environment:
-      # Spring Boot will pick these up automatically
-      #если в приложении проперти для БД такие как url и тд
-      #задаются в апликэйшен проперти файле
-
-      # то какой приоритет ниже представленных проперти над теми, что определены в документе
-      # что такое переменная окржуения и как ее использовать в апликейшен ямл
-      # как задать дефолтную переменную
-
-      # как сделать так, чтобы в приложении задавалась ссылка на проперти
+      SPRING_PROFILES_ACTIVE: docker
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/tasksdb
       SPRING_DATASOURCE_USERNAME: tasks
       SPRING_DATASOURCE_PASSWORD: tasks
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update #какое свойство нужно хдесь использовать,чтобы работал ликвибэйс а не хибер
-      SPRING_PROFILES_ACTIVE: docker # прочитать про апликэйшн ямл и апликейщен-название профиль.ямл, как их использовать
-    ports: # 127.0.0.1:8080 == localhost:8080
+    ports:
       - "8080:8080"
-    # Uncomment if you have Spring Actuator
-    # healthcheck:
-    #   test: ["CMD-SHELL", "curl -fsS http://localhost:8080/actuator/health || exit 1"]
-    #   interval: 10s
-    #   timeout: 3s
-    #   retries: 10
 
 volumes:
   db_data:

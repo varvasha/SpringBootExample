@@ -11,6 +11,9 @@ COPY .mvn .mvn
 COPY mvnw mvnw
 COPY pom.xml .
 
+# make wrapper executable + fix CRLF just in case
+RUN sed -i 's/\r$//' mvnw && chmod +x mvnw
+
 # Pre-fetch dependencies to leverage layer caching (non-fatal if wrapper plugins aren't cached yet)
 RUN ./mvnw -q -DskipTests dependency:go-offline || true
 
