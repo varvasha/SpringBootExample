@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
@@ -100,6 +99,9 @@ public class TicketServiceImpl implements TicketService {
         }
         if (nonNull(ticketDTO.description())) {
             existing.setDescription(ticketDTO.description());
+        }
+        if (nonNull(ticketDTO.ticketType())) {
+            existing.setTicketType(ticketDTO.ticketType());
         }
 
         var saved = ticketRepository.save(existing);

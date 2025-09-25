@@ -1,0 +1,67 @@
+### Create ticket
+POST {{baseUrl}}/tickets/create
+Content-Type: application/json
+
+{
+  "title": "Bug",
+  "description": "Null pointer",
+  "ticketType": "SIMPLE"
+}
+
+###
+
+### Get all tickets
+GET {{baseUrl}}/tickets
+
+###
+
+### Get ticket by ID
+GET {{baseUrl}}/tickets/1
+
+###
+
+### Update ticket
+PATCH {{baseUrl}}/tickets/1
+Content-Type: application/json
+
+{
+  "title": "Updated bug title",
+  "description": "New description",
+  "ticketType": "DEADLINE"
+}
+
+###
+
+### Delete ticket
+DELETE {{baseUrl}}/tickets/1
+
+
+1) Создать тикет
+curl -X POST http://localhost:8080/api/v1/tickets/create -H "Content-Type: application/json" -d "{\"title\":\"Bug\",\"description\":\"Null pointer\",\"ticketType\":\"SIMPLE\"}"
+
+2) Получить все тикеты
+curl http://localhost:8080/api/v1/tickets
+
+3) Получить тикет по id
+curl http://localhost:8080/api/v1/tickets/1
+
+4) Частичное обновление (PATCH)
+
+(можно передавать только те поля, что меняешь)
+
+curl -X PATCH http://localhost:8080/api/v1/tickets/1 -H "Content-Type: application/json" -d "{\"title\":\"Updated title\",\"description\":\"New desc\",\"ticketType\":\"DEADLINE\"}"
+
+5) Удалить тикет
+curl -X DELETE http://localhost:8080/api/v1/tickets/1
+
+6) Поиск по описанию и заголовку (точное совпадение)
+curl "http://localhost:8080/api/v1/tickets/search?description=Null%20pointer&title=Bug"
+
+7) Последние за год (JPQL)
+curl "http://localhost:8080/api/v1/tickets/recent/jpql?type=SIMPLE"
+
+8) Последние за год (native SQL)
+curl "http://localhost:8080/api/v1/tickets/recent/native?type=SIMPLE"
+
+9) Последние за год (derived query)
+curl "http://localhost:8080/api/v1/tickets/recent/derived?type=SIMPLE"

@@ -35,26 +35,14 @@
         <preConditions onFail="MARK_RAN">
             <dbms type="h2"/>
         </preConditions>
-
         <sql>
             ALTER TABLE tickets
-                ADD CONSTRAINT ck_tickets_ticket_type
-                    CHECK (ticket_type IS NULL OR ticket_type IN ('SIMPLE','DEADLINE','REGULAR'));
+            ADD CONSTRAINT ck_tickets_ticket_type
+            CHECK (ticket_type IS NULL OR ticket_type IN ('SIMPLE','DEADLINE','REGULAR'));
         </sql>
-
         <rollback>
             <sql>ALTER TABLE tickets DROP CONSTRAINT ck_tickets_ticket_type;</sql>
         </rollback>
-    </changeSet>
-
-    <changeSet id="rollback-tickets-table" author="a.varvashevich" context="rollback">
-        <rollback>
-            <dropTable tableName="tickets" cascadeConstraints="true"/>
-        </rollback>
-    </changeSet>
-
-    <changeSet id="change-column-name-of-ticket-table" author="a.varvashevich" context="rollback">
-        <renameColumn tableName="tickets" oldColumnName="description" newColumnName="descriptions"/>
     </changeSet>
 
 </databaseChangeLog>
