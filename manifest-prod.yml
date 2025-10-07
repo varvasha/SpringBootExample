@@ -1,0 +1,20 @@
+applications:
+  - name: task-app-prod
+    memory: 192M
+    disk_quota: 1G
+    path: target/spring-boot-application-example-0.0.1-SNAPSHOT.jar
+    buildpacks:
+      - java_buildpack
+    random-route: true
+    services:
+      - my-postgres
+    env:
+#      SPRING_PROFILES_ACTIVE: prod
+#      SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres-68a059f7-4c3f-4a59-85d0-afd44e8f0732.cqryblsdrbcs.us-east-1.rds.amazonaws.com:6734/CYoBHlbhjJJb?sslmode=require"
+#      SPRING_DATASOURCE_USERNAME: "8f3ea2e31823"
+#      SPRING_DATASOURCE_PASSWORD: "ae6ec59ed52151953a46d954736bd"
+#      SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
+      JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: true}'
+      JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 17.+ } }'
+      JAVA_OPTS: "-Xmx120m -Xss256k -XX:ReservedCodeCacheSize=32m -XX:MaxMetaspaceSize=96m -XX:TieredStopAtLevel=1 -XX:+UseSerialGC"
+      SERVER_TOMCAT_MAX_THREADS: "20"

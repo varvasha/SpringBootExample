@@ -32,9 +32,9 @@
     </changeSet>
 
     <changeSet id="ck-tickets-ticket-type-h2" author="a.varvashevich">
-        <preConditions onFail="MARK_RAN">
-            <dbms type="h2"/>
-        </preConditions>
+<!--        <preConditions onFail="MARK_RAN">-->
+<!--            <dbms type="h2"/>-->
+<!--        </preConditions>-->
         <sql>
             ALTER TABLE tickets
             ADD CONSTRAINT ck_tickets_ticket_type
